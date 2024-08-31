@@ -31,6 +31,12 @@ export default function (Mousetrap, options) {
          */
         _recordedSequenceCallback = null,
         /**
+         * a callback to invoke after storing a sequence
+         *
+         * @type {Function|null}
+         */
+        _updatedSequenceCallback = null,
+        /**
          * a list of all of the keys currently held down
          *
          * @type {Array}
@@ -128,6 +134,14 @@ export default function (Mousetrap, options) {
      */
     function _recordCurrentCombo() {
         _recordedSequence.push(_currentRecordedKeys);
+
+        if (_updatedSequenceCallback) {
+            var clone = [..._recordedSequence];
+
+            _normalizeSequence(clone);
+            _updatedSequenceCallback(clone);
+        }
+
         _currentRecordedKeys = [];
         _recordedCharacterKey = false;
         _restartRecordTimer();
@@ -200,6 +214,7 @@ export default function (Mousetrap, options) {
      *
      * @param {Object} options
      * @param {Function} options.onRecordComplete
+     * @param {Function} options.onSequenceUpdate
      * @returns void
      */
     Mousetrap.prototype.record = function (options, timeout) {
@@ -215,6 +230,10 @@ export default function (Mousetrap, options) {
             options.onRecordComplete.apply(self, arguments);
         };
 
+        _updatedSequenceCallback = function () {
+            options.onSequenceUpdate.apply(self, arguments);
+        };
+
         return function () {
             clearTimeout(_recordTimer);
 
@@ -222,6 +241,7 @@ export default function (Mousetrap, options) {
             _currentRecordedKeys = [];
             _recordedSequence = [];
             _recordedSequenceCallback = null;
+            _updatedSequenceCallback = null;
         };
     };
 
