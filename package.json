@@ -19,6 +19,7 @@
   "author": "Dan Tao <daniel.tao@gmail.com>",
   "type": "module",
   "main": "./mousetrap-record.js",
+  "types": "./mousetrap-record.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
