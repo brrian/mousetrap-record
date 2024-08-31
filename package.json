@@ -18,8 +18,14 @@
   "license": "Apache-2.0",
   "author": "Dan Tao <daniel.tao@gmail.com>",
   "type": "module",
-  "main": "mousetrap-record.js",
+  "main": "./mousetrap-record.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "mousetrap": "^1.6.5"
+  },
+  "peerDependencies": {
+    "mousetrap": "^1.6.5"
   }
 }
